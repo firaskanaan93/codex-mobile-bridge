@@ -1,0 +1,32 @@
+<svg width="1440" height="1200" viewBox="0 0 1440 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1440" height="1200" rx="28" fill="#091018"/>
+  <rect x="32" y="32" width="1376" height="1136" rx="24" fill="#0D1721" stroke="rgba(255,255,255,0.08)"/>
+  <rect x="72" y="72" width="1296" height="84" rx="18" fill="#101C28"/>
+  <text x="108" y="122" fill="#E8EEF5" font-family="Arial, sans-serif" font-size="28" font-weight="700">Refactor mobile auth flow</text>
+  <text x="108" y="96" fill="#64748B" font-family="Arial, sans-serif" font-size="16">Projects / /workspace/mobile-app</text>
+  <rect x="1240" y="92" width="92" height="40" rx="20" fill="rgba(52,211,153,0.12)" stroke="rgba(52,211,153,0.25)"/>
+  <text x="1270" y="117" fill="#34D399" font-family="Arial, sans-serif" font-size="16" font-weight="700">Live</text>
+
+  <rect x="120" y="210" width="1010" height="152" rx="22" fill="rgba(163,230,53,0.10)" stroke="rgba(163,230,53,0.28)"/>
+  <text x="162" y="255" fill="#A3E635" font-family="Arial, sans-serif" font-size="18" font-weight="700">YOU</text>
+  <text x="162" y="301" fill="#F0F4F8" font-family="Arial, sans-serif" font-size="26">Review the auth flow and fix the redirect loop on mobile.</text>
+  <text x="1000" y="255" fill="#64748B" font-family="Arial, sans-serif" font-size="16">11:42 AM</text>
+
+  <rect x="250" y="398" width="1060" height="232" rx="22" fill="rgba(34,211,238,0.10)" stroke="rgba(34,211,238,0.28)"/>
+  <text x="292" y="443" fill="#22D3EE" font-family="Arial, sans-serif" font-size="18" font-weight="700">CODEX</text>
+  <text x="292" y="489" fill="#F0F4F8" font-family="Arial, sans-serif" font-size="24">I traced the redirect loop to a stale session cookie path.</text>
+  <text x="292" y="529" fill="#F0F4F8" font-family="Arial, sans-serif" font-size="24">I updated the cookie config and the mobile callback route.</text>
+  <text x="292" y="569" fill="#F0F4F8" font-family="Arial, sans-serif" font-size="24">The app now lands on the intended protected page after login.</text>
+  <text x="1180" y="443" fill="#64748B" font-family="Arial, sans-serif" font-size="16">11:44 AM</text>
+
+  <rect x="120" y="682" width="1100" height="132" rx="22" fill="#111820" stroke="rgba(255,255,255,0.07)"/>
+  <text x="162" y="726" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="18" font-weight="700">EVENT</text>
+  <text x="162" y="770" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="24">Running regression checks on mobile login and protected routes…</text>
+  <text x="1105" y="726" fill="#64748B" font-family="Arial, sans-serif" font-size="16">11:45 AM</text>
+
+  <rect x="72" y="1020" width="1296" height="110" rx="24" fill="#101C28" stroke="rgba(255,255,255,0.08)"/>
+  <text x="104" y="1068" fill="#64748B" font-family="Arial, sans-serif" font-size="16">Send to Codex</text>
+  <text x="104" y="1100" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="24">Ship the patch and summarize the root cause.</text>
+  <rect x="1198" y="1050" width="126" height="48" rx="16" fill="rgba(34,211,238,0.14)" stroke="rgba(34,211,238,0.32)"/>
+  <text x="1239" y="1081" fill="#22D3EE" font-family="Arial, sans-serif" font-size="20" font-weight="700">Send</text>
+</svg>

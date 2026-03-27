@@ -1,0 +1,33 @@
+<svg width="1440" height="780" viewBox="0 0 1440 780" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1440" height="780" rx="28" fill="#091018"/>
+  <text x="74" y="96" fill="#F0F4F8" font-family="Arial, sans-serif" font-size="34" font-weight="700">Remote send flow</text>
+  <text x="74" y="136" fill="#94A3B8" font-family="Arial, sans-serif" font-size="20">Synthetic product diagram showing the real mobile-to-desktop control loop.</text>
+
+  <rect x="74" y="220" width="280" height="170" rx="24" fill="#111820" stroke="rgba(255,255,255,0.08)"/>
+  <text x="112" y="280" fill="#A3E635" font-family="Arial, sans-serif" font-size="24" font-weight="700">1. Phone</text>
+  <text x="112" y="326" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="22">User sends an instruction from the mobile web UI.</text>
+
+  <rect x="430" y="220" width="280" height="170" rx="24" fill="#111820" stroke="rgba(255,255,255,0.08)"/>
+  <text x="468" y="280" fill="#22D3EE" font-family="Arial, sans-serif" font-size="24" font-weight="700">2. Bridge</text>
+  <text x="468" y="326" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="22">The server resolves the Codex thread and triggers macOS automation.</text>
+
+  <rect x="786" y="220" width="280" height="170" rx="24" fill="#111820" stroke="rgba(255,255,255,0.08)"/>
+  <text x="824" y="280" fill="#FBBF24" font-family="Arial, sans-serif" font-size="24" font-weight="700">3. Desktop</text>
+  <text x="824" y="326" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="22">Codex Desktop opens the thread, writes into the composer, and sends.</text>
+
+  <rect x="1142" y="220" width="224" height="170" rx="24" fill="#111820" stroke="rgba(255,255,255,0.08)"/>
+  <text x="1180" y="280" fill="#34D399" font-family="Arial, sans-serif" font-size="24" font-weight="700">4. Reply</text>
+  <text x="1180" y="326" fill="#E2E8F0" font-family="Arial, sans-serif" font-size="22">Transcript refresh shows the real Codex response back on mobile.</text>
+
+  <path d="M354 305H430" stroke="#22D3EE" stroke-width="6" stroke-linecap="round"/>
+  <path d="M710 305H786" stroke="#22D3EE" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1066 305H1142" stroke="#22D3EE" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="392" cy="305" r="8" fill="#22D3EE"/>
+  <circle cx="748" cy="305" r="8" fill="#22D3EE"/>
+  <circle cx="1104" cy="305" r="8" fill="#22D3EE"/>
+
+  <rect x="74" y="500" width="1292" height="184" rx="24" fill="#101C28" stroke="rgba(255,255,255,0.08)"/>
+  <text x="108" y="554" fill="#F0F4F8" font-family="Arial, sans-serif" font-size="28" font-weight="700">Privacy note</text>
+  <text x="108" y="604" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="22">These visuals use synthetic workspace names and message content only.</text>
+  <text x="108" y="644" fill="#CBD5E1" font-family="Arial, sans-serif" font-size="22">No private local project paths or real transcript messages are shown in the repository assets.</text>
+</svg>
