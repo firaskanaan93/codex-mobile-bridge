@@ -7,7 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --import tsx --test tests/**/*.test.ts"
+    "test": "node --import tsx --test tests/**/*.test.ts",
+    "cloudflare:tunnel": "./scripts/cloudflare-quick-tunnel.sh",
+    "cloudflare:url": "./scripts/print-cloudflare-url.sh",
+    "launchd:install": "./scripts/install-launchagents.sh",
+    "launchd:remove": "./scripts/remove-launchagents.sh"
   },
   "dependencies": {
     "next": "16.2.1",

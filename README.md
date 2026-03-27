@@ -94,6 +94,36 @@ Important:
 - it is temporary and not a permanent production hostname
 - if you expose this app publicly, add authentication before trusting it
 
+### Auto-run the app and Cloudflare quick tunnel on login
+
+This repo includes launchd helpers for macOS:
+
+```bash
+npm run build
+npm run launchd:install
+```
+
+That installs two LaunchAgents:
+- one for the production Next.js server on `127.0.0.1:3001`
+- one for the Cloudflare quick tunnel
+
+To print the current public URL:
+
+```bash
+npm run cloudflare:url
+```
+
+To remove the auto-run setup:
+
+```bash
+npm run launchd:remove
+```
+
+Important:
+- the quick tunnel URL changes after restart
+- this setup does not create a stable custom hostname
+- for a permanent hostname, move to a named Cloudflare tunnel under a real Cloudflare-managed domain
+
 ## How It Works
 
 ### Read path

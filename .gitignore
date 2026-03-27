@@ -23,6 +23,7 @@
 # local runtime data
 /.data/
 /.codex/
+/.runtime/
 
 # misc
 .DS_Store
