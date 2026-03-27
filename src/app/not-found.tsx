@@ -2,25 +2,44 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col items-center justify-center px-6 text-center">
-      <div className="rounded-[2rem] border border-white/10 bg-black/35 p-10 shadow-[0_20px_80px_rgba(0,0,0,0.35)] backdrop-blur">
-        <p className="mb-3 text-xs uppercase tracking-[0.35em] text-cyan-200/75">
+    <div className="flex min-h-screen items-center justify-center px-4 w-full overflow-x-hidden">
+      <div className="w-full max-w-md rounded-2xl border border-border bg-surface p-8 text-center">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 border border-primary/20">
+          <SearchIcon />
+        </div>
+        <h1 className="text-lg font-semibold text-text-primary">
           Not Found
-        </p>
-        <h1 className="mb-4 text-3xl font-semibold tracking-tight text-white">
-          The requested Codex item does not exist.
         </h1>
-        <p className="mb-6 text-sm leading-7 text-white/65">
-          The thread may be archived, removed, or unavailable from the current
-          local Codex storage.
+        <p className="mt-2 text-sm text-text-secondary">
+          The requested Codex item does not exist. It may be archived,
+          removed, or unavailable from local storage.
         </p>
         <Link
-          className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-50 transition hover:bg-cyan-300/16"
           href="/projects"
+          className="mt-6 inline-flex items-center gap-2 rounded-lg bg-primary/15 border border-primary/30 px-4 py-2.5 text-sm font-medium text-primary hover:bg-primary/25 active:scale-95 transition-all duration-200"
         >
-          Return to projects
+          <ArrowLeftIcon />
+          Back to Projects
         </Link>
       </div>
     </div>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg className="w-6 h-6 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  );
+}
+
+function ArrowLeftIcon() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m12 19-7-7 7-7" />
+      <path d="M19 12H5" />
+    </svg>
   );
 }

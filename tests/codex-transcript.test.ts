@@ -50,3 +50,40 @@ test("readTranscript parses user, assistant, and event items", async () => {
   );
   assert.equal(items[1]?.body, "Checking the repository structure now.");
 });
+
+test("readTranscript hides an event when it is the same text as the next assistant message", async () => {
+  const directory = mkdtempSync(path.join(os.tmpdir(), "codex-viewer-transcript-"));
+  const transcriptPath = path.join(directory, "rollout.jsonl");
+
+  writeFileSync(
+    transcriptPath,
+    [
+      JSON.stringify({
+        timestamp: "2026-03-27T18:01:00.000Z",
+        type: "event_msg",
+        payload: {
+          type: "agent_message",
+          message: "Same visible text.",
+        },
+      }),
+      JSON.stringify({
+        timestamp: "2026-03-27T18:01:01.000Z",
+        type: "response_item",
+        payload: {
+          type: "message",
+          role: "assistant",
+          content: [{ type: "output_text", text: "Same visible text." }],
+        },
+      }),
+    ].join("\n"),
+    "utf8",
+  );
+
+  const items = await readTranscript(transcriptPath);
+
+  assert.deepEqual(
+    items.map((item) => item.role),
+    ["assistant"],
+  );
+  assert.equal(items[0]?.body, "Same visible text.");
+});

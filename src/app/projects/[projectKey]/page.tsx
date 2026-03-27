@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { listThreadsByProject } from "@/lib/codex-thread-index";
 import { decodeProjectKey } from "@/lib/project-key";
-import { formatDateTime, formatRelative } from "@/lib/date";
+import { formatRelative } from "@/lib/date";
 
 export const dynamic = "force-dynamic";
 
@@ -25,46 +25,78 @@ export default async function ProjectThreadsPage({
   const cwd = decodeProjectKey(projectKey);
 
   return (
-    <div className="mx-auto min-h-screen w-full max-w-5xl px-4 py-8 sm:px-6">
-      <div className="mb-8 rounded-[2rem] border border-white/10 bg-black/35 p-6 shadow-[0_20px_80px_rgba(0,0,0,0.35)] backdrop-blur">
-        <Link className="text-sm text-cyan-200/80 transition hover:text-white" href="/projects">
-          ← Back to projects
-        </Link>
-        <div className="mt-5 space-y-3">
-          <p className="text-xs uppercase tracking-[0.32em] text-cyan-200/70">
-            Workspace
-          </p>
-          <h1 className="break-all text-2xl font-semibold tracking-tight text-white sm:text-4xl">
-            {cwd}
-          </h1>
-          <p className="text-sm leading-7 text-white/62">
-            These are the non-archived Codex threads tied to this working
-            directory.
-          </p>
+    <div className="min-h-screen flex flex-col w-full overflow-x-hidden">
+      {/* Header */}
+      <header className="sticky top-0 z-10 border-b border-border bg-background/95 backdrop-blur-xl w-full">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 py-3 w-full">
+          <div className="flex items-center gap-3">
+            <Link
+              href="/projects"
+              className="flex items-center justify-center w-9 h-9 rounded-lg border border-border bg-surface text-text-secondary hover:text-text-primary hover:border-primary/30 active:scale-95 transition-all duration-200 shrink-0"
+            >
+              <ArrowLeftIcon />
+            </Link>
+            <div className="flex-1 min-w-0">
+              <nav className="flex items-center gap-1.5 text-xs text-text-tertiary mb-1">
+                <Link href="/projects" className="hover:text-text-secondary transition-colors whitespace-nowrap">
+                  Projects
+                </Link>
+                <span className="shrink-0">/</span>
+                <span className="truncate">{cwd}</span>
+              </nav>
+              <h1 className="text-base font-medium text-text-primary truncate">
+                {cwd}
+              </h1>
+            </div>
+          </div>
         </div>
-      </div>
+      </header>
 
-      <div className="space-y-4">
-        {threads.map((thread) => (
-          <Link
-            key={thread.id}
-            href={`/threads/${thread.id}`}
-            className="block rounded-[1.7rem] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02))] p-5 shadow-[0_16px_40px_rgba(0,0,0,0.22)] transition hover:border-lime-300/25 hover:bg-white/7"
-          >
-            <div className="mb-4 flex items-center justify-between gap-3 text-xs text-white/45">
-              <span>{formatDateTime(thread.updatedAt)}</span>
-              <span>{formatRelative(thread.updatedAt)}</span>
-            </div>
-            <h2 className="mb-3 line-clamp-3 text-lg font-semibold tracking-tight text-white sm:text-xl">
-              {thread.title}
-            </h2>
-            <div className="flex flex-wrap gap-3 text-xs uppercase tracking-[0.2em] text-white/45">
-              <span>Thread {thread.id}</span>
-              <span>Created {formatDateTime(thread.createdAt)}</span>
-            </div>
-          </Link>
-        ))}
-      </div>
+      {/* Thread List */}
+      <main className="mx-auto max-w-4xl px-4 sm:px-6 py-5 w-full flex-1">
+        <div className="space-y-2.5">
+          {threads.map((thread) => (
+            <Link
+              key={thread.id}
+              href={`/threads/${thread.id}`}
+              className="group block rounded-xl border border-border bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-4 hover:border-secondary/40 hover:from-white/[0.07] active:scale-[0.98] transition-all duration-200"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-text-primary line-clamp-2 leading-snug">
+                    {thread.title}
+                  </h3>
+                  <div className="mt-2 flex items-center gap-2 text-xs text-text-tertiary">
+                    <span className="font-mono bg-surface px-1.5 py-0.5 rounded">#{thread.id.slice(0, 6)}</span>
+                    <span className="w-0.5 h-0.5 rounded-full bg-border" />
+                    <time className="truncate">{formatRelative(thread.updatedAt)}</time>
+                  </div>
+                </div>
+                <div className="text-text-tertiary group-hover:text-secondary group-hover:translate-x-0.5 transition-all shrink-0">
+                  <ChevronRightIcon />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </main>
     </div>
+  );
+}
+
+function ArrowLeftIcon() {
+  return (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m12 19-7-7 7-7" />
+      <path d="M19 12H5" />
+    </svg>
+  );
+}
+
+function ChevronRightIcon() {
+  return (
+    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="m9 18 6-6-6-6" />
+    </svg>
   );
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
@@ -15,7 +15,13 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 export const metadata: Metadata = {
   title: "Mobile Codex Viewer",
-  description: "Browse local Codex projects, threads, and queued mobile messages.",
+  description: "Browse local Codex projects and remotely send messages through the real Codex message box on your Mac.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0a0f14",
 };
 
 export default function RootLayout({
@@ -28,7 +34,9 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${ibmPlexMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-background overflow-x-hidden">
+        {children}
+      </body>
     </html>
   );
 }

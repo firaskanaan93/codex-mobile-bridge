@@ -70,12 +70,34 @@ function parseRecord(record: TranscriptRecord, index: number): TimelineItem | nu
   return null;
 }
 
+function normalizeBody(body: string): string {
+  return body.trim().replaceAll("\r\n", "\n");
+}
+
+function dedupeAdjacentEventEchoes(items: TimelineItem[]): TimelineItem[] {
+  return items.filter((item, index, allItems) => {
+    if (item.role !== "event") {
+      return true;
+    }
+
+    const nextItem = allItems[index + 1];
+
+    if (!nextItem || nextItem.role !== "assistant") {
+      return true;
+    }
+
+    return normalizeBody(item.body) !== normalizeBody(nextItem.body);
+  });
+}
+
 export async function readTranscript(rolloutPath: string): Promise<TimelineItem[]> {
   const raw = readFileSync(rolloutPath, "utf8");
   const lines = raw.split("\n").map((line) => line.trim()).filter(Boolean);
 
-  return lines
+  const items = lines
     .map((line, index) => parseRecord(JSON.parse(line) as TranscriptRecord, index))
     .filter((item): item is TimelineItem => item !== null)
     .sort((left, right) => left.timestamp.localeCompare(right.timestamp));
+
+  return dedupeAdjacentEventEchoes(items);
 }

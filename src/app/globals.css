@@ -1,13 +1,41 @@
 @import "tailwindcss";
 
 :root {
-  --background: #071019;
-  --foreground: #f5f7fb;
+  /* Base Colors */
+  --background: #0a0f14;
+  --surface: #111820;
+  --surface-elevated: #1a232d;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.15);
+
+  /* Text Colors */
+  --text-primary: #f0f4f8;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --text-muted: rgba(148, 163, 184, 0.6);
+
+  /* Semantic Colors */
+  --primary: #22d3ee;
+  --secondary: #a3e635;
+  --accent: #fbbf24;
+  --success: #34d399;
+  --error: #fb7185;
 }
 
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-border: var(--border);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-error: var(--error);
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-ibm-plex-mono);
 }
@@ -18,16 +46,21 @@
 
 html {
   min-height: 100%;
-  background:
-    radial-gradient(circle at top left, rgba(34, 211, 238, 0.16), transparent 28%),
-    radial-gradient(circle at top right, rgba(163, 230, 53, 0.12), transparent 24%),
-    linear-gradient(180deg, #08131d 0%, #060b12 50%, #03060b 100%);
+  background: var(--background);
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 body {
   min-height: 100vh;
-  color: var(--foreground);
+  color: var(--text-primary);
   background: transparent;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 a {
@@ -39,4 +72,46 @@ button,
 textarea,
 input {
   font: inherit;
+}
+
+/* Prevent horizontal scroll */
+#__next {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Focus visible styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
 }
