@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { getThreadById } from "@/lib/codex-thread-index";
-import { validateMessageBody } from "@/lib/mobile-queue";
-import { QueuedOnlyTransport } from "@/lib/outbound";
-import type { TimelineItem } from "@/lib/types";
+import { sendToDesktopThread } from "@/lib/desktop-controller";
+import { validateMessageBody } from "@/lib/message-body";
 
 export const dynamic = "force-dynamic";
 
@@ -23,25 +22,30 @@ export async function POST(request: Request, { params }: MessageRouteProps) {
   try {
     const payload = (await request.json()) as { body?: unknown };
     const body = validateMessageBody(payload.body);
-    const queuedMessage = await new QueuedOnlyTransport().send(threadId, body);
+    const result = await sendToDesktopThread({
+      threadId: thread.id,
+      cwd: thread.cwd,
+      body,
+      rolloutPath: thread.rolloutPath,
+    });
 
-    const item: TimelineItem = {
-      id: queuedMessage.id,
-      source: "mobile_queue",
-      role: "user",
-      body: queuedMessage.body,
-      timestamp: queuedMessage.createdAt,
-      status: queuedMessage.status,
-    };
+    const statusCode =
+      result.status === "accepted"
+        ? 200
+        : result.status === "desktop_busy"
+          ? 409
+          : result.status === "desktop_unavailable"
+            ? 503
+            : 500;
 
-    return NextResponse.json({ item }, { status: 201 });
+    return NextResponse.json(result, { status: statusCode });
   } catch (error) {
     return NextResponse.json(
       {
         error:
           error instanceof Error
             ? error.message
-            : "Failed to queue the message.",
+            : "Failed to send the message.",
       },
       { status: 422 },
     );

@@ -1,8 +1,14 @@
 export type TimelineRole = "user" | "assistant" | "event";
 
-export type TimelineSource = "codex" | "mobile_queue";
+export type TimelineSource = "codex";
 
-export type QueueStatus = "pending" | "failed";
+export type DesktopSendStatus =
+  | "accepted"
+  | "desktop_busy"
+  | "desktop_unavailable"
+  | "thread_open_failed"
+  | "composer_not_found"
+  | "send_failed";
 
 export interface ProjectSummary {
   cwd: string;
@@ -27,14 +33,20 @@ export interface TimelineItem {
   role: TimelineRole;
   body: string;
   timestamp: string;
-  status?: QueueStatus;
 }
 
-export interface QueuedMessageRecord {
-  id: string;
+export interface DesktopSendRequest {
   threadId: string;
+  cwd: string;
   body: string;
-  status: QueueStatus;
-  createdAt: string;
-  updatedAt: string;
+  rolloutPath: string;
+}
+
+export interface DesktopSendResult {
+  ok: boolean;
+  status: DesktopSendStatus;
+  message: string;
+  startedAt: string;
+  completedAt: string;
+  observedThreadId?: string;
 }

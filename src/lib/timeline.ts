@@ -1,6 +1,5 @@
 import { getThreadById } from "@/lib/codex-thread-index";
 import { readTranscript } from "@/lib/codex-transcript";
-import { listQueuedMessages } from "@/lib/mobile-queue";
 import type { TimelineItem } from "@/lib/types";
 
 export async function getMergedTimeline(threadId: string): Promise<TimelineItem[]> {
@@ -10,21 +9,9 @@ export async function getMergedTimeline(threadId: string): Promise<TimelineItem[
     throw new Error("Thread not found.");
   }
 
-  const [transcriptItems, queuedMessages] = await Promise.all([
-    readTranscript(thread.rolloutPath),
-    listQueuedMessages(threadId),
-  ]);
+  const transcriptItems = await readTranscript(thread.rolloutPath);
 
-  const queueItems: TimelineItem[] = queuedMessages.map((message) => ({
-    id: message.id,
-    source: "mobile_queue",
-    role: "user",
-    body: message.body,
-    timestamp: message.createdAt,
-    status: message.status,
-  }));
-
-  return [...transcriptItems, ...queueItems].sort((left, right) =>
+  return transcriptItems.sort((left, right) =>
     left.timestamp.localeCompare(right.timestamp),
   );
 }

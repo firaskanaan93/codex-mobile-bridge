@@ -32,7 +32,9 @@ export function ensureParentDirectory(filePath: string): void {
 }
 
 export function runSqlite(dbPath: string, sql: string, options: SqliteOptions = {}) {
-  ensureParentDirectory(dbPath);
+  if (!options.readonly) {
+    ensureParentDirectory(dbPath);
+  }
 
   const result = spawnSync("sqlite3", buildArgs(dbPath, options), {
     encoding: "utf8",

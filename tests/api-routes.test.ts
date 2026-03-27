@@ -10,7 +10,6 @@ import { POST as postMessage } from "@/app/api/threads/[threadId]/messages/route
 function setupCodexFixture() {
   const directory = mkdtempSync(path.join(os.tmpdir(), "codex-viewer-api-"));
   const databasePath = path.join(directory, "state.sqlite");
-  const queuePath = path.join(directory, "queue.sqlite");
   const transcriptPath = path.join(directory, "rollout.jsonl");
 
   writeFileSync(
@@ -89,29 +88,32 @@ function setupCodexFixture() {
   );
 
   process.env.CODEX_STATE_DB = databasePath;
-  process.env.APP_QUEUE_DB = queuePath;
+  process.env.CODEX_DESKTOP_CONTROLLER_MODE = "mock-success";
 }
 
-test("POST /api/threads/[threadId]/messages queues a pending message", async () => {
+test("POST /api/threads/[threadId]/messages returns accepted for desktop handoff", async () => {
   setupCodexFixture();
 
   const response = await postMessage(
     new Request("http://localhost/api/threads/thread-1/messages", {
       method: "POST",
-      body: JSON.stringify({ body: "queued from test" }),
+      body: JSON.stringify({ body: "send from mobile" }),
       headers: { "content-type": "application/json" },
     }),
     { params: Promise.resolve({ threadId: "thread-1" }) },
   );
 
-  assert.equal(response.status, 201);
+  assert.equal(response.status, 200);
 
   const payload = (await response.json()) as {
-    item: { status: string; body: string };
+    status: string;
+    ok: boolean;
+    observedThreadId?: string;
   };
 
-  assert.equal(payload.item.status, "pending");
-  assert.equal(payload.item.body, "queued from test");
+  assert.equal(payload.ok, true);
+  assert.equal(payload.status, "accepted");
+  assert.equal(payload.observedThreadId, "thread-1");
 });
 
 test("POST /api/threads/[threadId]/messages rejects empty messages", async () => {
@@ -129,17 +131,32 @@ test("POST /api/threads/[threadId]/messages rejects empty messages", async () =>
   assert.equal(response.status, 422);
 });
 
-test("GET /api/threads/[threadId]/timeline returns transcript and queued items", async () => {
+test("POST /api/threads/[threadId]/messages surfaces controller busy state", async () => {
   setupCodexFixture();
+  process.env.CODEX_DESKTOP_CONTROLLER_MODE = "mock-busy";
 
-  await postMessage(
+  const response = await postMessage(
     new Request("http://localhost/api/threads/thread-1/messages", {
       method: "POST",
-      body: JSON.stringify({ body: "queued from test" }),
+      body: JSON.stringify({ body: "send from mobile" }),
       headers: { "content-type": "application/json" },
     }),
     { params: Promise.resolve({ threadId: "thread-1" }) },
   );
+
+  assert.equal(response.status, 409);
+
+  const payload = (await response.json()) as {
+    status: string;
+    ok: boolean;
+  };
+
+  assert.equal(payload.ok, false);
+  assert.equal(payload.status, "desktop_busy");
+});
+
+test("GET /api/threads/[threadId]/timeline returns transcript items", async () => {
+  setupCodexFixture();
 
   const response = await getTimeline(new Request("http://localhost"), {
     params: Promise.resolve({ threadId: "thread-1" }),
@@ -151,9 +168,9 @@ test("GET /api/threads/[threadId]/timeline returns transcript and queued items",
     items: Array<{ source: string; body: string }>;
   };
 
-  assert.equal(payload.items.length, 3);
+  assert.equal(payload.items.length, 2);
   assert.equal(
-    payload.items.some((item) => item.source === "mobile_queue"),
+    payload.items.every((item) => item.source === "codex"),
     true,
   );
 });

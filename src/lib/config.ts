@@ -23,8 +23,27 @@ export function getCodexStateDatabasePath(): string {
   );
 }
 
-export function getQueueDatabasePath(): string {
-  return expandHome(
-    process.env.APP_QUEUE_DB ?? path.join(process.cwd(), ".data", "mobile-codex.sqlite"),
-  );
+export function getCodexDesktopAppName(): string {
+  return process.env.CODEX_DESKTOP_APP_NAME?.trim() || "Codex";
+}
+
+export function getDesktopControllerMode():
+  | "ui-composer"
+  | "mock-success"
+  | "mock-busy"
+  | "mock-unavailable"
+  | "mock-thread-open-failed"
+  | "mock-composer-not-found"
+  | "mock-send-failed" {
+  switch (process.env.CODEX_DESKTOP_CONTROLLER_MODE) {
+    case "mock-success":
+    case "mock-busy":
+    case "mock-unavailable":
+    case "mock-thread-open-failed":
+    case "mock-composer-not-found":
+    case "mock-send-failed":
+      return process.env.CODEX_DESKTOP_CONTROLLER_MODE;
+    default:
+      return "ui-composer";
+  }
 }
