@@ -90,6 +90,13 @@ Then open:
 - laptop: `http://127.0.0.1:3001/projects`
 - phone on the same network: `http://YOUR_MAC_LAN_IP:3001/projects`
 
+If you open the dev server from a phone or another machine, add that host to `ALLOWED_DEV_ORIGINS` in `.env.local` before starting `next dev`.
+Example:
+
+```bash
+ALLOWED_DEV_ORIGINS=192.168.1.101
+```
+
 ## Environment
 
 Available variables:
@@ -114,7 +121,9 @@ Available variables:
     - `mock-composer-not-found`
     - `mock-send-failed`
 - `ALLOWED_DEV_ORIGINS`
-  - optional comma-separated allowlist for remote device access in Next.js dev mode
+  - optional comma-separated allowlist for additional hosts that should be allowed to load Next.js dev assets
+  - `localhost` and `127.0.0.1` are allowed by default
+  - add your Mac's LAN IP here when opening the dev server from another device
 
 ## Public access with Cloudflare quick tunnel
 
@@ -198,6 +207,14 @@ npm run build
 - desktop automation is version-sensitive
 - no built-in auth layer yet
 - transcript compatibility depends on Codex’s local file formats
+
+## Roadmap
+
+- add authentication before recommending public exposure
+- improve composer targeting across more Codex Desktop UI states
+- support a stable named Cloudflare tunnel flow
+- add safer health checks for desktop automation failures
+- investigate support for non-macOS desktop control paths
 
 ## License
 
