@@ -243,9 +243,9 @@ export function ThreadView({
                     {formatDateTime(item.timestamp)}
                   </time>
                 </div>
-                <p className="text-sm leading-relaxed text-text-primary break-words">
+                <div className="text-sm leading-7 text-text-primary whitespace-pre-wrap break-words">
                   {item.body}
-                </p>
+                </div>
               </article>
             ))}
             {/* Scroll anchor - invisible element at the bottom */}
